@@ -4,123 +4,23 @@ import Image from "next/image";
 import styles from "../styles/Home.module.css";
 import { useState } from "react";
 import styled from "styled-components";
-
-interface ITag {
-  id: number;
-  name: string;
-  type: string;
-}
-interface IProfileInfo {
-  id: number;
-  name: string;
-  tags: [ITag];
-}
-interface IFeed {
-  id: number;
-  profile: IProfileInfo;
-  thumbmail: string;
-  tags: [ITag];
-  title: string;
-  contents: string;
-  status: string;
-  isBookmarked: boolean;
-}
+import { FeedsList } from "../data";
 const ListComponents = styled.section`
   img {
-    width:100%;
+    width: 100%;
   }
   li {
     list-style-type: none;
-    padding:0
+    padding: 0;
   }
-  width:100%;
+  figure {
+    margin: 0;
+    img {
+      width: 55px;
+    }
+  }
+  width: 100%;
 `;
-const FeedsList: IFeed[] = [
-  {
-    id: 1,
-    profile: {
-      id: 1,
-      name: "머니 S 손민정",
-      tags: [
-        {
-          id: 1,
-          name: "애널리스트",
-          type: "ANALYST",
-        },
-      ],
-    },
-    tags: [
-      {
-        id: 1,
-        name: "LG전자",
-        type: "종목",
-      },
-    ],
-    thumbmail:
-      "https://oopy.lazyrockets.com/api/v2/notion/image?src=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F91c40f8f-cb6b-4ab3-a026-5a52b7b7e05e%2FUntitled.png&blockId=cc25a836-2512-426f-b6d3-ab3679265dce",
-    title: "엘지전자의 반란 언제까지 이어지나",
-    contents:
-      "130년 전통의 고품격 기계식 시계 브랜드 잉거솔이 애리스골드의 한국수입유통사 워닝월렛을 통해 한국시장에 상륙했다",
-    status: "구매하기",
-    isBookmarked: false,
-  },
-  {
-    id: 1,
-    profile: {
-      id: 1,
-      name: "머니 S 손민정",
-      tags: [
-        {
-          id: 1,
-          name: "애널리스트",
-          type: "ANALYST",
-        },
-      ],
-    },
-    tags: [
-      {
-        id: 1,
-        name: "LG전자",
-        type: "종목",
-      },
-    ],
-    thumbmail:
-      "https://oopy.lazyrockets.com/api/v2/notion/image?src=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F91c40f8f-cb6b-4ab3-a026-5a52b7b7e05e%2FUntitled.png&blockId=cc25a836-2512-426f-b6d3-ab3679265dce",
-    title: "엘지전자의 반란 언제까지 이어지나",
-    contents:
-      "130년 전통의 고품격 기계식 시계 브랜드 잉거솔이 애리스골드의 한국수입유통사 워닝월렛을 통해 한국시장에 상륙했다",
-    status: "구매하기",
-    isBookmarked: false,
-  },
-  {
-    id: 1,
-    profile: {
-      id: 1,
-      name: "머니 S 손민정",
-      tags: [
-        {
-          id: 1,
-          name: "애널리스트",
-          type: "ANALYST",
-        },
-      ],
-    },
-    tags: [
-      {
-        id: 1,
-        name: "LG전자",
-        type: "종목",
-      },
-    ],
-    thumbmail:
-      "https://oopy.lazyrockets.com/api/v2/notion/image?src=https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F91c40f8f-cb6b-4ab3-a026-5a52b7b7e05e%2FUntitled.png&blockId=cc25a836-2512-426f-b6d3-ab3679265dce",
-    title: "엘지전자의 반란 언제까지 이어지나",
-    contents:
-      "130년 전통의 고품격 기계식 시계 브랜드 잉거솔이 애리스골드의 한국수입유통사 워닝월렛을 통해 한국시장에 상륙했다",
-    status: "구매하기",
-    isBookmarked: false,
-  },
-];
 const Feeds: NextPage = () => {
   console.log("aa", FeedsList);
   const [FList, setFLst] = useState(FeedsList);
@@ -132,50 +32,48 @@ const Feeds: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <div className={styles.container}>
-        <ListComponents>
-          <h1>피드 리스트1</h1>
-          <ul>
-            {FList.map((item, key) => (
-              <li key={key}>
-                {/* <figure>
-                  <figcaption>
-                    <span> {item.profile.name}</span>
-                    <div>
-                      {item.profile.tags.map((tag, tagKey) => {
-                        <button key={tagKey}>{tag.name}</button>;
-                      })}
-                    </div>
-                  </figcaption>
-                </figure> */}
-                <dl>
-                  <dt>
-                    <img src={item.thumbmail} alt="thumbnail" />
-                    <div>
-                      {item.tags.map((tag, tagKey) => {
-                        <button key={tagKey}>{tag.name}</button>;
-                      })}
-                    </div>
-                    <h2>{item.title}</h2>
-                  </dt>
-                  <dd>
-                    <h3>{item.contents}</h3>
-                  </dd>
+      <ListComponents>
+        <ul>
+          {FList.map((item, key) => (
+            <li key={key}>
+              <figure>
+                <figcaption>
+                  <img src={item.profile.thumbnail} alt="profile image" />
+                  <span> {item.profile.name}</span>
                   <div>
-                    <div>
-                      <button>{item.status}</button>
-                    </div>
-                    <div>
-                      <button>북마크버튼</button>
-                      <button>공유하기</button>
-                    </div>
+                    {item.profile.tagList.map((tag, tagKey) => {
+                      <button key={tagKey}>{tag.name}</button>;
+                    })}
                   </div>
-                </dl>
-              </li>
-            ))}
-          </ul>
-        </ListComponents>
-      </div>
+                </figcaption>
+              </figure>
+              <dl>
+                <dt>
+                  <img src={item.thumbmail} alt="thumbnail" />
+                  <div>
+                    {item.tagList.map((tag, tagKey) => {
+                      <button key={tagKey}>{tag.name}</button>;
+                    })}
+                  </div>
+                  <h2>{item.title}</h2>
+                </dt>
+                <dd>
+                  <h3>{item.contents}</h3>
+                </dd>
+                <div>
+                  <div>
+                    <button>{item.status}</button>
+                  </div>
+                  <div>
+                    <button>북마크버튼</button>
+                    <button>공유하기</button>
+                  </div>
+                </div>
+              </dl>
+            </li>
+          ))}
+        </ul>
+      </ListComponents>
     </section>
   );
 };
