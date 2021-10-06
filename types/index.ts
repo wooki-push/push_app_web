@@ -48,7 +48,7 @@ export interface ICoin {
   persent: number;
   chartData: number[];
 }
-export interface ITradPost {
+export interface ITraderLetter {
   id: number;
   tag: ITag[];
   title: string;
@@ -128,6 +128,63 @@ export interface IMarketEvent extends IEvent {
   eventCode: string;
   changePrice: number;
 }
+export interface IAskingPrice {
+  price: number;
+  rate: number;
+}
+export interface IWeeksData {
+  date: Date;
+  price: number;
+}
+export interface IOrder {
+  bidBalance: number[]; //판매 잔량
+  askBalance: number[]; //구매 잔량
+  askingPrice: IAskingPrice[]; //호가
+  volumePower: number; //체결강도
+  fillPrice: number[]; //체결가
+  fillRate: number[]; //체결량
+  shareVolume: number; //거래량
+  tradeVolume: number; //거래금
+  weeksHigh: IWeeksData; //52주 최고
+  weeksLow: IWeeksData; //52주 최저
+}
+export interface IEventInformation {
+  baseDay: Date; //기준일
+  closingPrice: number; //전일종가
+  lowestPrice: number; //전일최저가
+  highestPrice: number; //전일최고가
+  shareVolume: number; //거래량
+  dividendRate: number; //배당수익률
+  per: number;
+  eps: number;
+  pbr: number;
+  bps: number;
+}
 export interface IMarket {
   event: IMarketEvent;
+  order: IOrder;
+  eventInformation: IEventInformation;
+  traderOpinion: ITraderLetter[];
+  tabState: "chart" | "order";
+  orderState: "buy" | "cell";
+  sharePrice: number; //현재가
+  stock: number; //수량
+  price: number; //금액
+}
+
+/**
+ * 포트폴리오
+ */
+export interface IPortfolioSummary {
+  investmentPrice:number;//투자금
+  profitRate:number;//수익률
+  profitPrice:number;
+}
+export interface IPortfolio {
+  asset: number; //총 자산
+  equity: number; //초기 자본금
+  total: IPortfolioSummary; //전체
+  stock: IPortfolioSummary; //주식
+  coin: IPortfolioSummary; //코인
+
 }
